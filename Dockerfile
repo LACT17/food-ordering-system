@@ -2,10 +2,12 @@ FROM mcr.microsoft.com/devcontainers/java:1-21-bullseye
 
 WORKDIR /app
 
+# Copy the entire source code
+COPY . .
 # Copy Maven wrapper and pom.xml first for caching dependencies
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
+#COPY mvnw .
+#COPY .mvn .mvn
+#COPY pom.xml .
 
 # Download dependencies
 RUN ./mvnw dependency:go-offline

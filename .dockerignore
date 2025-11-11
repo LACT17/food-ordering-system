@@ -1,0 +1,15 @@
+# Exclude the target directories that contain compiled code, JARs, etc.
+target/
+**/target/
+
+# Exclude JAR files that might be in the root or subdirectories
+*.jar
+
+# Exclude logs
+*.log
+**/logs/
+
+# Exclude IDE and operating system files
+.idea/
+.vscode/
+.DS_Store
