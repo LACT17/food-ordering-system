@@ -22,6 +22,7 @@ import java.util.UUID;
 @Slf4j
 @Component
 public class OrderCreateHelper {
+
     private final OrderDomainService orderDomainService;
 
     private final OrderRepository orderRepository;
@@ -54,6 +55,7 @@ public class OrderCreateHelper {
         log.info("Order is created with id: {}", orderCreatedEvent.getOrder().getId().getValue());
         return orderCreatedEvent;
     }
+
     private Restaurant checkRestaurant(CreateOrderCommand createOrderCommand) {
         Restaurant restaurant = orderDataMapper.createOrderCommandToRestaurant(createOrderCommand);
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findRestaurantInformation(restaurant);
