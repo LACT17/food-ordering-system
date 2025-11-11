@@ -35,4 +35,21 @@ build/
 ### VS Code ###
 .vscode/
 
+
+# ----------------------------------------
+# Maven Wrapper Executables
+# ----------------------------------------
+# Ignore the wrapper scripts themselves, as they are typically generated or tracked
+# only if they are the official ones from Maven. If you prefer to ignore them:
+mvnw
+mvnw.cmd
+
+# ----------------------------------------
+# Maven Wrapper Configuration (If you want to ignore it)
+# ----------------------------------------
+# NOTE: The .mvn/wrapper/maven-wrapper.properties file is usually committed 
+# to ensure everyone uses the same Maven version. Ignoring the whole folder 
+# means you won't commit the properties file.
+.mvn/
+
 infrastructure/docker-compose/volumes/**/**
