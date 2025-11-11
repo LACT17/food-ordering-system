@@ -42,5 +42,5 @@
 
   // OPTIONAL: Automatically forward the application port for easy host access.
   // Your .env says APP_PORT=8085, which is mapped to the container's 8080 port.
-  "forwardPorts": [8095]
+  "forwardPorts": [8102]
 }

@@ -12,8 +12,6 @@ COPY . .
 # Download dependencies
 RUN ./mvnw dependency:go-offline
 
-# Copy the entire source code
-COPY src ./src
 
 # Set JAVA_TOOL_OPTIONS environment variable to limit heap
 ENV JAVA_TOOL_OPTIONS="-Xmx512m"
