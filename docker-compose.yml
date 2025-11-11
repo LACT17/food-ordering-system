@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    # Use the port from the .env file
+    ports:
+      - "${APP_PORT}:8080"
+    # Mount local directories (for hot reload and source access)
+    volumes:
+      - .:/app
+      - ~/.m2:/root/.m2
+    
+    # Ensure this service starts ONLY when the database is reported as 'healthy'
+    depends_on:
+      db:
+        condition: service_healthy 
+        
+    # Using the cleaner map-style notation for environment variables
+    environment:
+      # Enable Spring Boot devtools for hot reload
+      SPRING_DEVTOOLS_RESTART_ENABLED: true
+      # Database connection configuration for Spring Boot
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    command: sleep infinity
+    user: root
+    
+    # Default command is inherited from your Dockerfile
+    # CMD ["./mvnw", "spring-boot:run"]
+
+  db:
+    image: postgres:18-alpine
+    # Use the port from the .env file
+    ports:
+      - "${DB_PORT}:5432"
+    # Named volume for persistent database storage
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      
+    environment:
+      # Database credentials and name from the .env file
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: always
+
+    # HEALTHCHECK: Ensures the 'app' service only starts when the DB is ready
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $POSTGRES_DB -U $POSTGRES_USER"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+# Define the named volume for persistence
+volumes:
+  postgres_data:

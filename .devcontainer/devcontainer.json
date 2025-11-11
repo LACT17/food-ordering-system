@@ -1,0 +1,46 @@
+{
+  "name": "Spring Boot App",
+  // Reference your docker-compose.yml file. 
+  // The path is relative to devcontainer.json.
+  "dockerComposeFile": ["../docker-compose.yml"],
+
+  // Specify the service that VS Code should use as the Dev Container.
+  // Your service is named 'app' in docker-compose.yml.
+  "service": "app",   
+
+  // Set the default folder VS Code opens once connected.
+  // This should match your volume mount path for the project source in docker-compose.yml.
+  "workspaceFolder": "/app",
+
+  // OPTIONAL: Stop all associated containers (like your 'db' service) when VS Code closes.
+  "shutdownAction": "stopCompose",
+
+  // OPTIONAL: Install recommended extensions for Java/Spring Boot development
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "Pivotal.vscode-boot-dev-pack",
+        "vmware.vscode-spring-boot",
+        "pivotal.vscode-spring-boot",
+        "vscjava.vscode-spring-initializr",
+        "vscjava.vscode-lombok",
+        // --- Recommended Extensions Added Below ---
+        "vmware.vscode-spring-boot-dashboard", 
+        "vscjava.vscode-maven", 
+        // "vscjava.vscode-gradle", // Uncomment if your project uses Gradle instead of Maven							
+        "streetsidesoftware.code-spell-checker",
+        "sonarsource.sonarlint",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-containers",			
+        "vmware.vscode-boot-dev-pack",	
+        "redhat.java",		
+        "vscjava.vscode-java-test"
+      ]
+    }
+  },
+
+  // OPTIONAL: Automatically forward the application port for easy host access.
+  // Your .env says APP_PORT=8085, which is mapped to the container's 8080 port.
+  "forwardPorts": [8095]
+}
