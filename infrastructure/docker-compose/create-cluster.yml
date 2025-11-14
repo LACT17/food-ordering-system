@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  # This service automatically registers the cluster with Kafka Manager
+  kafka-manager-setup:
+    image: alpine/curl:latest
+    networks:
+      - ${GLOBAL_NETWORK:-kafka}
+    depends_on:
+      - kafka-manager # Ensure Kafka Manager starts first
+    command: >
+      /bin/sh -c "
+      # Wait for Kafka Manager to start up on port 9000
+      /usr/bin/curl --silent --show-error --connect-timeout 5 --retry 10 --retry-delay 5 kafka-manager:9000;
+
+      echo 'Registering cluster with Kafka Manager...'
+
+      # Send POST request to add the cluster
+      /usr/bin/curl -X POST 'http://kafka-manager:9000/clusters' \
+        -H 'Content-Type: application/x-www-form-urlencoded' \
+        --data-urlencode 'name=food-ordering-system-cluster' \
+        --data-urlencode 'zkHosts=zookeeper:2181' \
+        --data-urlencode 'kafkaVersion=3.2.0' \
+        --data-urlencode 'jmxEnabled=true' \
+        --data-urlencode 'pollConsumerEnabled=true' \
+        --data-urlencode 'logkafkaEnabled=true' \
+        --data-urlencode 'activeOffsetCacheEnabled=true' \
+        --data-urlencode 'displaySizeEnabled=true' \
+        --data-urlencode 'tuning.clusterManagerThreadPoolSize=2' \
+        --data-urlencode 'tuning.clusterManagerThreadPoolQueueSize=100' \
+        --data-urlencode 'tuning.kafkaCommandThreadPoolSize=2' \
+        --data-urlencode 'tuning.kafkaCommandThreadPoolQueueSize=100' \
+        --data-urlencode 'tuning.logkafkaCommandThreadPoolSize=2' \
+        --data-urlencode 'tuning.logkafkaCommandThreadPoolQueueSize=100' \
+        --data-urlencode 'tuning.partitionOffsetCacheTimeoutSecs=5' \
+        --data-urlencode 'tuning.brokerViewUpdatePeriodSeconds=30' \
+        --data-urlencode 'tuning.updatePeriodSeconds=30' \
+        --data-urlencode 'tuning.logkafkaUpdatePeriodSeconds=10' \
+        --data-urlencode 'tuning.kafkaLagCacheEnabled=true'
+      "
