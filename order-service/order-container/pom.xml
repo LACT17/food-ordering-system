@@ -64,12 +64,12 @@
                     </image>
                 </configuration>
                 <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>build-image</goal>
-                        </goals>
-                    </execution>
+                    <!-- Removed default binding of build-image to the install phase to avoid
+                         mandatory Docker invocation during a normal build. This prevents build
+                         failures on environments where the local Docker API version is incompatible
+                         or Docker is not available. To build the image manually, run:
+                           mvn -pl order-service/order-container spring-boot:build-image
+                    -->
                 </executions>
             </plugin>
         </plugins>

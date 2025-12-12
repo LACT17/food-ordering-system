@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 //This is the new
 //@Table(name = "customers")
-@Table( name="order_customer_m_view", schema = "customers")
+@Table( name="order_customer_m_view", schema = "customer")
 @Entity
 public class CustomerEntity {
 

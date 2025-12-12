@@ -1,0 +1,35 @@
+server:
+  port: 8184
+
+# Define customer-service specific configuration properties with sensible defaults
+# These can be overridden via environment variables (e.g., CUSTOMER_SERVICE_DATABASE_HOST)
+customer-service:
+  database-host: ${CUSTOMER_SERVICE_DATABASE_HOST:localhost}
+  database-port: ${CUSTOMER_SERVICE_DATABASE_PORT:5449}
+  database-name: ${CUSTOMER_SERVICE_DATABASE_NAME:postgres}
+  database-schema: ${CUSTOMER_SERVICE_DATABASE_SCHEMA:customer}
+  database-username: ${CUSTOMER_SERVICE_DATABASE_USERNAME:postgres}
+  database-password: ${CUSTOMER_SERVICE_DATABASE_PASSWORD:admin}
+
+
+spring:
+  jpa:
+    open-in-view: false
+    show-sql: true
+    #database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+  datasource:
+    url: jdbc:postgresql://localhost:5449/postgres?currentSchema=customer&binaryTransfer=true&reWriteBatchedInserts=true
+    username: postgres
+    password: admin
+    #url: jdbc:postgresql://${customer-service.database-host}:${customer-service.database-port}/${customer-service.database-name}?currentSchema=${customer-service.database-schema}&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    #username: ${customer-service.database-username}
+    #password: ${customer-service.database-password}
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      platform: postgres
+      schema-locations: classpath:init-schema.sql
+      data-locations: classpath:init-data.sql
+      mode: always
+      separator: ;;
+
